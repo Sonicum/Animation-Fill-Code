@@ -1,0 +1,86 @@
+<!doctype html>
+
+<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"><![endif]-->
+<!--[if (gt IE 6)|!(IE)]><!--><html lang="en" class="no-js"><!--<![endif]-->
+
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Animation Fill Code | CSS3 Keyframe Animation Code Generator</title>
+	<meta name="description" content="Animation Fill Code">
+	<meta name="author" content="">
+	
+	<!-- Remove these two references once the files are in root with these file names -->
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+	<link rel="stylesheet" href="css/screen.css?v=1.4">
+	
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+
+	<script src="js/modernizr-2.0.6.js"></script>
+
+</head>
+
+<body>
+	
+	<header>
+
+		<hgroup>
+		<h1><a href="http://animationfillcode.com">Animation Fill Code</a></h1>
+		<h2>Because You Should Only Have to Type it Once</h2>
+		</hgroup>
+		
+	</header>
+
+	<div class="top-box" id="helpContent">
+	<p>The <a href="http://www.w3.org/TR/css3-animations/">CSS3 Animations Module</a> is still in the <a href="http://en.wikipedia.org/wiki/W3C_recommendation#Working_Draft_.28WD.29">working draft</a> stage. This means that in order to get the code to work, vendor prefixes are required.</p>
+	
+	<p>After you write your code using either <a href="http://www.webkit.org/blog/324/css-animation-2/">WebKit</a> or <a href="https://developer.mozilla.org/en/CSS/CSS_animations">Mozilla</a> syntax, use this tool to generate the necessary duplicate code with the appropriate vendor prefixes. The "filled" code will include prefixes for Webkit, Mozilla, and now <a href="http://msdn.microsoft.com/en-us/ie/hh272902.aspx#_CSSAnimations">IE10</a>. The code also includes the standard (prefix-less) syntax. If you don't want the standard syntax (which currently doesn't work in any browser), then just delete it.</p>
+	
+	<p>Your starting code should be valid, working code that uses either WebKit or Mozilla syntax. Later I'll add support for starting with IE10 using the <code>-ms-</code> prefix. WebKit is chosen by default. The tool doesn't support starting with prefix-less syntax. <a href="http://caniuse.com/#search=animations">Browsers that support</a> keyframe animations currently include Chrome 4+, Safari 4+,  Firefox 5+, IE10+, iOS Safari 3.2+, and Android Browser 2.1+.</p>
+	
+	<p>This tool was inspired by <a href="http://prefixr.com">Prefixr</a>, which you can use to add appropriate vendor prefixes for all sorts of CSS3 properties.</p>
+
+	</div><!-- #helpContent -->
+
+	<div class="main">
+
+		<form>
+		<label>Start with:</label> <input type="radio" name="startWith" value="wk" checked> <code>-webkit-</code> <input type="radio" name="startWith" value="mz"> <code>-moz-</code>
+		<textarea id="code" spellcheck="false"></textarea>
+		
+		<!-- webkit bug: http://stackoverflow.com/questions/4461414/html5-placeholder-attribute-chrome-doesnt-line-wrap-in-textareas
+		
+		placeholder="Paste your -webkit- or -moz- CSS3 keyframe animations code here, then press the 'Fill My Animation Code' button to fill in the equivalent other code, including standard syntax." -->
+		</form>
+		
+		<input type="button" id="submit" value="Fill My Animation Code">
+
+	</div><!-- #main -->
+
+	<footer>
+	<p>Report bugs and suggestions <a href="http://twitter.com/ImpressiveWebs">via Twitter</a>, through <a href="http://www.impressivewebs.com/contact/">this form</a>, or <a href="http://www.impressivewebs.com/animation-fill-code/">on this post</a>.</p>
+
+	<p class="cr">Copyright &copy; 2011 by <a href="http://www.impressivewebs.com">Louis Lazaris</a></p>
+
+	</footer>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.6.2.min.js"%3E%3C/script%3E'))</script>
+
+<script src="js/general.js?ver=2.2"></script>
+
+<script>
+var _gaq = [['_setAccount', 'UA-1965499-9'], ['_trackPageview']];
+(function(d, t) {
+	var g = d.createElement(t),
+		s = d.getElementsByTagName(t)[0];
+	g.async = true;
+	g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	s.parentNode.insertBefore(g, s);
+})(document, 'script');
+</script>
+</body>
+</html>
