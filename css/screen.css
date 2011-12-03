@@ -139,6 +139,23 @@ a.help:hover {
 	background-position: 0 0;
 }
 
+a.play, a.play:link, a.play:visited {
+	text-decoration: none;
+	text-indent: -9999em;
+	overflow: hidden;
+	display: block;
+	width: 58px;
+	height: 50px;
+	background: transparent url(http://cdn.impressivewebs.com/animationfillcode/play.gif) no-repeat 0 -50px;
+	position: absolute;
+	top: 70px;
+	right: 0;
+}
+
+a.play:hover {
+	background-position: 0 0;
+}
+
 .top-box {
 	display: block;
 	width: 840px;
@@ -290,3 +307,12 @@ a.help:hover {
 	.github-ribbon:hover {
 		opacity: 1;
 	}
+	
+@media (max-width: 1280px) {
+
+	.github-ribbon {
+		display: none;
+	}
+	
+}
+	

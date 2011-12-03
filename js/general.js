@@ -16,8 +16,10 @@ $(function () {
 				fieldValue: null,
 				phMessage: 'Paste your -webkit- or -moz- CSS3 keyframe animations code here, then press the \'Fill My Animation Code\' button to fill in the equivalent other code, including standard syntax.',
 				helpBtn: null,
-				closeBtn: null,
-				
+				demoBtn: null,
+				closeHelp: null,
+				closeDemo: null,
+
 				venStart: '',
 				venEnd: '',
 				venStartRegEx: null,
@@ -32,6 +34,7 @@ $(function () {
 				myAnimChunk: '',
 
 				helpContent: $('#helpContent')[0],
+				demoContent: $('#demoContent')[0],
 				hGroup: $('hgroup')[0],
 				error: $('#error')[0],
 				congrats: $('#congrats')[0],
@@ -50,7 +53,12 @@ $(function () {
 				$(s.helpContent).append('<a href="#" class="closeHelp" id="closeHelp">X</a>');
 				$('<div class="top-box" id="error"></div>').insertAfter(s.helpContent);
 				$('<div class="top-box" id="congrats"></div>').insertAfter(s.helpContent);
-				$('<a href="#" class="help" id="btnHelp">?</a>').insertAfter(s.hGroup);
+				$('<a href="#" class="help" id="btnHelp" title="What is this Tool?">?</a>').insertAfter(s.hGroup);
+
+				$(s.demoContent).append('<a href="#" class="closeHelp" id="closeDemo">X</a>');
+				$('<div class="top-box" id="error"></div>').insertAfter(s.demoContent);
+				$('<div class="top-box" id="congrats"></div>').insertAfter(s.demoContent);
+				$('<a href="http://www.youtube.com/watch?v=araO0Vli-j4" class="play" id="btnDemo">Play</a>').insertAfter(s.hGroup);
 				$('.top-box').slideUp(0);
 
 				$(s.btn).bind('click', function () {
@@ -69,6 +77,7 @@ $(function () {
 				//}
 
 				this.doHelpButton();
+				this.doDemoButton();
 			},
 
 			doCheckCode: function () {
@@ -161,25 +170,25 @@ $(function () {
 						s.myChunkCode[i] = s.myBrackets.join('');
 
 					} else {
-						
+
 						s.myAnimChunk = s.myChunkCode[i].replace(s.venStartRegEx, s.venEndRegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@-ms-keyframes");
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@keyframes");
 						s.myChunkCode[i] = s.myChunkCode[i] + "}\n\n}\n\n" + s.myAnimChunk;
 						
 					}
-					
+
 				}
-				
+
 				s.complete = s.myChunkCode.join('');
-					
+
 				$(s.field).val(s.complete);
 				s.complete = "";
 				this.doCongrats();
 			},
 
 			polyfillPlaceholder: function () {
-				
+
 				s = this.settings;
 				$(s.field).addClass('ph');
 
@@ -192,7 +201,7 @@ $(function () {
 						$(s.field).removeClass('ph');
 					}
 				});
-				
+
 				$(s.field).blur(function () {
 					if ($(s.field).val() === '') {
 						$(s.congrats).slideUp(s.speed);
@@ -202,11 +211,11 @@ $(function () {
 				});
 
 			},
-			
+
 			blurCleared: function () {
-				
+
 				s = this.settings;
-				
+
 				$(s.field).blur(function () {
 					if ($(s.field).val() === '') {
 						$(s.congrats).slideUp(s.speed);
@@ -219,23 +228,48 @@ $(function () {
 
 				s = this.settings;
 				s.error = $('#congrats')[0];
-				s.closeBtn = $('#closeHelp')[0];
+				s.closeHelp = $('#closeHelp')[0];
 				s.helpBtn = $('#btnHelp')[0];
 
 				$(s.helpBtn).bind('click', function () {
 					$(s.helpContent).slideToggle(s.speed);
+					$(s.demoContent).slideUp(s.speed);
 					$(s.congrats).slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
 
-				$(s.closeBtn).bind('click', function () {
+				$(s.closeHelp).bind('click', function () {
+					$(s.helpContent).slideUp(s.speed);
+					$(s.demoContent).slideUp(s.speed);
+					$(s.congrats).slideUp(s.speed);
+					AnimationFillCode.removeError();
+					return false;
+				});
+
+			},
+			
+			doDemoButton: function () {
+				s = this.settings;
+				s.error = $('#congrats')[0];
+				s.closeDemo = $('#closeDemo')[0];
+				s.demoBtn = $('#btnDemo')[0];
+				
+				$(s.demoBtn).bind('click', function () {
+					$(s.demoContent).slideToggle(s.speed);
 					$(s.helpContent).slideUp(s.speed);
 					$(s.congrats).slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
-
+				
+				$(s.closeDemo).bind('click', function () {
+					$(s.helpContent).slideUp(s.speed);
+					$(s.demoContent).slideUp(s.speed);
+					$(s.congrats).slideUp(s.speed);
+					AnimationFillCode.removeError();
+					return false;
+				});
 			},
 
 			doErrorMsg: function (e) {
