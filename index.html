@@ -38,11 +38,11 @@
 	
 	<p>The <a href="http://www.w3.org/TR/css3-animations/">CSS3 Animations Module</a> is still in the <a href="http://en.wikipedia.org/wiki/W3C_recommendation#Working_Draft_.28WD.29">working draft</a> stage. This means that in order to get the code to work, vendor prefixes are required.</p>
 	
-	<p>After you write your code using either <a href="http://www.webkit.org/blog/324/css-animation-2/">WebKit</a> or <a href="https://developer.mozilla.org/en/CSS/CSS_animations">Mozilla</a> syntax, use this tool to generate the necessary duplicate code with the appropriate vendor prefixes. The "filled" code will include prefixes for Webkit, Mozilla, and now <a href="http://msdn.microsoft.com/en-us/ie/hh272902.aspx#_CSSAnimations">IE10</a>. The code also includes the standard (prefix-less) syntax. If you don't want the standard syntax (which currently doesn't work in any browser), then just delete it.</p>
+	<p>After you write your code using <a href="http://www.webkit.org/blog/324/css-animation-2/">WebKit</a>, <a href="https://developer.mozilla.org/en/CSS/CSS_animations">Mozilla</a>, or <a href="http://msdn.microsoft.com/en-us/ie/hh272902.aspx#_CSSAnimations">IE10</a> syntax, use this tool to generate the necessary duplicate code with the appropriate vendor prefixes. The tool also adds the standard (prefix-less) syntax, declared last. If you don't want the standard syntax (which currently doesn't work in any browser), then just delete it.</p>
 
-	<p>Your starting code should be valid, working code that uses either WebKit or Mozilla syntax. Later I'll add support for starting with IE10 using the <code>-ms-</code> prefix. WebKit is chosen by default. The tool doesn't support starting with prefix-less syntax. <a href="http://caniuse.com/#search=animations">Browsers that support</a> keyframe animations currently include Chrome 4+, Safari 4+,  Firefox 5+, IE10+, iOS Safari 3.2+, and Android Browser 2.1+.</p>
+	<p>Your starting code should be valid, working code that uses WebKit, Mozilla, or IE syntax. The tool doesn't support starting with prefix-less syntax. <a href="http://caniuse.com/#search=animations">Browsers that support</a> keyframe animations currently include Chrome 4+, Safari 4+, Firefox 5+, IE10+, iOS Safari 3.2+, and Android Browser 2.1+.</p>
 	
-	<p>This tool was inspired by <a href="http://prefixr.com">Prefixr</a>, which you can use to add appropriate vendor prefixes for all sorts of CSS3 properties.</p>
+	<p>This tool was inspired by <a href="http://prefixr.com">Prefixr</a>, which you can use to add appropriate vendor prefixes for all sorts of CSS3 properties, including keyframe animations.</p>
 
 	</div><!-- #helpContent -->
 	
@@ -72,7 +72,7 @@
 	</div><!-- #main -->
 
 	<footer>
-	<p>Report bugs or offer suggestions for improvements <a href="https://github.com/impressivewebs/Animation-Fill-Code">on the GitHub page</a>.</p>
+	<p>Fork the project or offer suggestions for improvements <a href="https://github.com/impressivewebs/Animation-Fill-Code">on the GitHub page</a>.</p>
 
 	<p class="cr">Copyright &copy; 2011 by <a href="http://www.impressivewebs.com">Louis Lazaris</a> | <a href="http://twitter.com/ImpressiveWebs">Follow me on Twitter</a></p>
 
