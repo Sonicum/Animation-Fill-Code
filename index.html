@@ -15,7 +15,7 @@
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-	<link rel="stylesheet" href="css/screen.css?v=1.4">
+	<link rel="stylesheet" href="css/screen.css?v=1.5">
 	
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
 	
@@ -55,14 +55,18 @@
 	<div class="main">
 
 		<form>
-		<label>Start with:</label> <input type="radio" name="startWith" value="wk" checked> <code>-webkit-</code> <input type="radio" name="startWith" value="mz"> <code>-moz-</code>
+		<label>My Code Starts With:</label> 
+		<input type="radio" name="startWith" value="webkit"> <code>-webkit-</code>
+		<input type="radio" name="startWith" value="moz"> <code>-moz-</code>
+		<input type="radio" name="startWith" value="ms"> <code>-ms-</code>
+		<!--<input type="radio" name="startWith" value="o"> <code>-o-</code>-->
 		<textarea id="code" spellcheck="false"></textarea>
-		
+
 		<!-- webkit bug: http://stackoverflow.com/questions/4461414/html5-placeholder-attribute-chrome-doesnt-line-wrap-in-textareas
-		
+
 		placeholder="Paste your -webkit- or -moz- CSS3 keyframe animations code here, then press the 'Fill My Animation Code' button to fill in the equivalent other code, including standard syntax." -->
 		</form>
-		
+
 		<input type="button" id="submit" value="Fill My Animation Code">
 
 	</div><!-- #main -->
@@ -79,7 +83,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.6.2.min.js"%3E%3C/script%3E'))</script>
 
-<script src="js/general.js?ver=2.2"></script>
+<script src="js/general.js?ver=2.3"></script>
 
 <script>
 var _gaq = [['_setAccount', 'UA-1965499-9'], ['_trackPageview']];

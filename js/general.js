@@ -1,46 +1,55 @@
-/*globals $ window document */
+/*globals $ */
 
 $(function () {
 	var s = null,
 
 		AnimationFillCode = {
 			settings : {
-				field: $('#code')[0],
-				btn: $('#submit')[0],
+				field: $('#code'),
+				btn: $('#submit'),
 				currentValue: null,
 				mwValue: null,
 				sValue: null,
 				complete: "",
 				startWith: null,
-				atValue: null,
+				atValue1: null,
+				atValue2: null,
+				atValue3: null,
+				atValue4: null,
 				fieldValue: null,
-				phMessage: 'Paste your -webkit- or -moz- CSS3 keyframe animations code here, then press the \'Fill My Animation Code\' button to fill in the equivalent other code, including standard syntax.',
+				phMessage: 'Paste your single-vendor CSS3 keyframe animations code here, then press the \'Fill My Animation Code\' button to fill in the code for the other browsers, plus standard syntax.',
 				helpBtn: null,
 				demoBtn: null,
 				closeHelp: null,
 				closeDemo: null,
 
 				venStart: '',
-				venEnd: '',
+				ven1: '',
+				ven2: '',
+				//ven3: '',
 				venStartRegEx: null,
-				venEndRegEx: null,
+				ven1RegEx: null,
+				ven2RegEx: null,
+				ven3RegEx: null,
 				myChunkCode: null,
 				myBrackets: [],
 				myBracketBreak: [],
 				myBrackets2: [],
-				venProps: '',
+				venProps1: '',
 				venProps2: '',
+				//venProps3: '',
 				venPropsS: '',
 				myAnimChunk: '',
 
-				helpContent: $('#helpContent')[0],
-				demoContent: $('#demoContent')[0],
-				hGroup: $('hgroup')[0],
-				error: $('#error')[0],
-				congrats: $('#congrats')[0],
+				helpContent: $('#helpContent'),
+				demoContent: $('#demoContent'),
+				hGroup: $('hgroup'),
+				error: $('#error'),
+				congrats: $('#congrats'),
+				errorMsg0: '<p>Before submitting, select which browser you\'re starting with (i.e. webkit, moz, etc).</p>',
 				errorMsg1: '<p>Trigger happy much? Enter some code before submitting.</p>',
 				errorMsg2: '<p>Are you sure that\'s CSS3 animation code? That code is whack. Try again.</p>',
-				errorMsg3: '<p>It looks like this code already has all the necessary syntax. Make sure you paste only WebKit or only Mozilla, and then select the correct option.</p>',
+				errorMsg3: '<p>It looks like this code already has all the necessary syntax. Make sure you paste animation code that uses only one vendor prefix, then select the correct option.</p>',
 				congratsMsg: '<p>Your animation code has been filled! &nbsp; &nbsp; <a href="#" onclick="selectText(); return false;">Click to Select Text</a></p>',
 				speed: 1000,
 				foo: 'bar'
@@ -50,24 +59,31 @@ $(function () {
 
 				s = this.settings;
 
-				$(s.helpContent).append('<a href="#" class="closeHelp" id="closeHelp">X</a>');
+				s.helpContent.append('<a href="#" class="closeHelp" id="closeHelp">X</a>');
 				$('<div class="top-box" id="error"></div>').insertAfter(s.helpContent);
 				$('<div class="top-box" id="congrats"></div>').insertAfter(s.helpContent);
 				$('<a href="#" class="help" id="btnHelp" title="What is this Tool?">?</a>').insertAfter(s.hGroup);
 
-				$(s.demoContent).append('<a href="#" class="closeHelp" id="closeDemo">X</a>');
+				s.demoContent.append('<a href="#" class="closeHelp" id="closeDemo">X</a>');
 				$('<div class="top-box" id="error"></div>').insertAfter(s.demoContent);
 				$('<div class="top-box" id="congrats"></div>').insertAfter(s.demoContent);
-				$('<a href="http://www.youtube.com/watch?v=araO0Vli-j4" class="play" id="btnDemo">Play</a>').insertAfter(s.hGroup);
+				$('<a href="http://www.youtube.com/watch?v=araO0Vli-j4" class="play" id="btnDemo" title="Watch a Screencast Demo">Play</a>').insertAfter(s.hGroup);
 				$('.top-box').slideUp(0);
 
 				$(s.btn).bind('click', function () {
-					if (!$(s.field).val() || $(s.field).val() === s.phMessage) {
-						AnimationFillCode.doErrorMsg(1);
+					if (!$('input:radio[name=startWith]:checked').val()) {
+						AnimationFillCode.doErrorMsg(0);
 					} else {
-						s.currentValue = $(s.field).val();
-						AnimationFillCode.doCheckCode();
+
+						if (!s.field.val() || s.field.val() === s.phMessage) {
+							AnimationFillCode.doErrorMsg(1);
+						} else {
+							s.currentValue = s.field.val();
+							AnimationFillCode.doCheckCode();
+						}
+
 					}
+
 				});
 
 				//if (!Modernizr.input.placeholder) {
@@ -85,18 +101,43 @@ $(function () {
 
 				s.startWith = $('input:radio[name=startWith]:checked').val();
 
-				if (s.startWith === 'wk') {
-					s.atValue = '@-moz-keyframes';
-				} else {
-					s.atValue = '@-webkit-keyframes';
+				switch (s.startWith) {
+				case "webkit":
+					s.atValue1 = 'moz';
+					s.atValue2 = 'ms';
+					//s.atValue3 = 'o';
+					break;
+
+				case "moz":
+					s.atValue1 = 'webkit';
+					s.atValue2 = 'ms';
+					//s.atValue3 = 'o';
+					break;
+
+				case "ms":
+					s.atValue1 = 'webkit';
+					s.atValue2 = 'moz';
+					//s.atValue3 = 'o';
+					break;
+
+				/*case "o":
+					s.atValue1 = 'webkit';
+					s.atValue2 = 'moz';
+					s.atValue3 = 'ms';
+					break;*/
+				default:
+					s.atValue1 = 'moz';
+					s.atValue2 = 'ms';
+					//s.atValue3 = 'o';
+					break;
 				}
 
-				if (s.currentValue.search(s.atValue) === -1) {
+				if ((s.currentValue.search("@-" + s.atValue1 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue2 + "-keyframes") === -1) /*&& (s.currentValue.search("@-" + s.atValue3 + "-keyframes") === -1)*/) {
 
 					if (s.currentValue.search('keyframes') !== -1) {
 
 						if (s.currentValue.search('{') !== -1) {
-							AnimationFillCode.doFill($(s.field).val(), s.startWith);
+							AnimationFillCode.doFill($(s.field).val(), s.startWith, s.atValue1, s.atValue2/*, s.atValue3*/);
 						} else {
 							AnimationFillCode.doErrorMsg(2);
 						}
@@ -110,72 +151,75 @@ $(function () {
 				}
 			},
 
-			doFill: function (val, ven) {
+			doFill: function (val, ven, ven1, ven2/*, ven3*/) {
 				s = this.settings;
+				var i, j, k;
 				$(s.helpContent).slideUp(s.speed);
-				
+
 				s.myChunkCode = val.replace(/@-/g, "||||@-");
 				s.myChunkCode = s.myChunkCode.replace(/}\s*}/g, "||||}\n\n}");
 				s.myChunkCode = s.myChunkCode.split("||||");
 
-				if (ven === 'wk') {
-					s.venStart = "-webkit-";
-					s.venEnd = "-moz-";
-					s.venStartRegEx = new RegExp("@" + s.venStart + "keyframes","g");
-					s.venEndRegEx = "@" + s.venEnd + "keyframes";
-				} else {
-					s.venStart = "-moz-";
-					s.venEnd = "-webkit-";
-					s.venStartRegEx = new RegExp("@" + s.venStart + "keyframes","g");
-					s.venEndRegEx = "@" + s.venEnd + "keyframes";
-				}
+				s.venStart = "-" + ven + "-";
+				s.ven1 = "-" + ven1 + "-";
+				s.ven2 = "-" + ven2 + "-";
+				//s.ven3 = "-" + ven3 + "-";
+				s.venStartRegEx = new RegExp("@" + s.venStart + "keyframes", "g");
+				s.ven1RegEx = "@" + s.ven1 + "keyframes";
+				s.ven2RegEx = "@" + s.ven2 + "keyframes";
+				//s.ven3RegEx = "@" + s.ven3 + "keyframes";
 
 				// complete code, broken up here
-				for (var i = 0; i < s.myChunkCode.length; i += 1) {
-				
+				for (i = 0; i < s.myChunkCode.length; i += 1) {
+
+					// deal with the non-@keyframes part of the code here
 					if (s.myChunkCode[i].indexOf("@-") === -1) {
-						
+
 						s.myBrackets = s.myChunkCode[i].replace(/{/g, "||||{");
 						s.myBrackets = s.myBrackets.replace(/}/g, "||||}");
 						s.myBrackets = s.myBrackets.split("||||");
-						
-						for (var j = 0; j < s.myBrackets.length; j += 1) {
+
+						for (j = 0; j < s.myBrackets.length; j += 1) {
 
 							if (s.myBrackets[j].indexOf(s.venStart + "animation") !== -1) {
 
 								// do stuff with the vendor properties here
-								
+
 								s.myBrackets2 = s.myBrackets[j].split(";");
-								
-								for (var k = 0; k < s.myBrackets2.length; k += 1) {
+
+								for (k = 0; k < s.myBrackets2.length; k += 1) {
 
 									if (s.myBrackets2[k].indexOf(s.venStart + "animation") !== -1) {
-										s.venProps += s.myBrackets2[k].replace(s.venStart + "animation", s.venEnd + "animation") + ";";
-										s.venProps2 += s.myBrackets2[k].replace(s.venStart + "animation", "-ms-" + "animation") + ";";
+										s.venProps1 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven1 + "animation") + ";";
+										s.venProps2 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven2 + "animation") + ";";
+										//s.venProps3 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven3 + "animation") + ";";
 										s.venPropsS += s.myBrackets2[k].replace(s.venStart + "animation", "animation") + ";";
 									}
 
 								}
-								
-								s.myBrackets[j] = s.myBrackets[j] + s.venProps.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" + s.venPropsS.replace("{", "") + "\n";
 
-								s.venProps = "";
+								s.myBrackets[j] = s.myBrackets[j] + s.venProps1.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" /*+ s.venProps3.replace("{", "") + "\n"*/ + s.venPropsS.replace("{", "") + "\n";
+
+								s.venProps1 = "";
 								s.venProps2 = "";
+								//s.venProps3 = "";
 								s.venPropsS = "";
-								
+
 							}
 
 						}
 
 						s.myChunkCode[i] = s.myBrackets.join('');
 
+					// otherwise, deal with the @keyframes part of the code here
 					} else {
 
-						s.myAnimChunk = s.myChunkCode[i].replace(s.venStartRegEx, s.venEndRegEx);
-						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@-ms-keyframes");
+						s.myAnimChunk = s.myChunkCode[i].replace(s.venStartRegEx, s.ven1RegEx);
+						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven2RegEx);
+						//s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven3RegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@keyframes");
 						s.myChunkCode[i] = s.myChunkCode[i] + "}\n\n}\n\n" + s.myAnimChunk;
-						
+
 					}
 
 				}
@@ -248,13 +292,13 @@ $(function () {
 				});
 
 			},
-			
+
 			doDemoButton: function () {
 				s = this.settings;
 				s.error = $('#congrats')[0];
 				s.closeDemo = $('#closeDemo')[0];
 				s.demoBtn = $('#btnDemo')[0];
-				
+
 				$(s.demoBtn).bind('click', function () {
 					$(s.demoContent).slideToggle(s.speed);
 					$(s.helpContent).slideUp(s.speed);
@@ -262,7 +306,7 @@ $(function () {
 					AnimationFillCode.removeError();
 					return false;
 				});
-				
+
 				$(s.closeDemo).bind('click', function () {
 					$(s.helpContent).slideUp(s.speed);
 					$(s.demoContent).slideUp(s.speed);
@@ -275,13 +319,17 @@ $(function () {
 			doErrorMsg: function (e) {
 
 				s = this.settings;
-				s.error = $('#error')[0];
-				s.congrats = $('#congrats')[0];
+				s.error = $('#error');
+				s.congrats = $('#congrats');
 
 				$(s.helpContent).slideUp(s.speed);
 				$(s.congrats).slideUp(s.speed);
 
 				switch (e) {
+				case 0:
+					$(s.error).html(s.errorMsg0);
+					break;
+
 				case 1:
 					$(s.error).html(s.errorMsg1);
 					break;
@@ -303,11 +351,11 @@ $(function () {
 
 			},
 
-			doCongrats: function (e) {
+			doCongrats: function () {
 
 				s = this.settings;
-				s.error = $('#error')[0];
-				s.congrats = $('#congrats')[0];
+				s.error = $('#error');
+				s.congrats = $('#congrats');
 
 				$(s.error).slideUp(s.speed);
 				$(s.congrats).html(s.congratsMsg);
@@ -317,7 +365,7 @@ $(function () {
 			removeError: function () {
 
 				s = this.settings;
-				s.error = $('#error')[0];
+				s.error = $('#error');
 
 				$(s.error).slideUp(s.speed);
 
@@ -329,6 +377,6 @@ $(function () {
 
 });
 
-function selectText () {
+function selectText() {
 	$('#code').select();
 }
