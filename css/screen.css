@@ -239,6 +239,194 @@ a.play:hover {
 		resize: vertical;
 		margin: 20px 0 16px 0;
 	}
+	
+	.bg {
+		-webkit-animation-name: bgchange;
+		-webkit-animation-duration: .5s;
+		-webkit-animation-timing-function: linear;
+		-webkit-animation-iteration-count: 1;	
+		-webkit-animation-direction: normal;
+		-webkit-animation-fill-mode: forwards;
+
+		-moz-animation-name: bgchange;
+		-moz-animation-duration: .5s;
+		-moz-animation-timing-function: linear;
+		-moz-animation-iteration-count: 1;	
+		-moz-animation-direction: normal;
+		-moz-animation-fill-mode: forwards;
+
+		-ms-animation-name: bgchange;
+		-ms-animation-duration: .5s;
+		-ms-animation-timing-function: linear;
+		-ms-animation-iteration-count: 1;	
+		-ms-animation-direction: normal;
+		-ms-animation-fill-mode: forwards;
+
+		animation-name: bgchange;
+		animation-duration: .5s;
+		animation-timing-function: linear;
+		animation-iteration-count: 1;	
+		animation-direction: normal;
+		animation-fill-mode: forwards;
+	}
+
+	@-webkit-keyframes bgchange {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #6eb46c;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@-moz-keyframes bgchange {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #6eb46c;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@-ms-keyframes bgchange {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #6eb46c;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@keyframes bgchange {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #6eb46c;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	.bgerror {
+		-webkit-animation-name: bgerror;
+		-webkit-animation-duration: .5s;
+		-webkit-animation-timing-function: linear;
+		-webkit-animation-iteration-count: 1;	
+		-webkit-animation-direction: normal;
+		-webkit-animation-fill-mode: forwards;
+
+		-moz-animation-name: bgerror;
+		-moz-animation-duration: .5s;
+		-moz-animation-timing-function: linear;
+		-moz-animation-iteration-count: 1;	
+		-moz-animation-direction: normal;
+		-moz-animation-fill-mode: forwards;
+
+		-ms-animation-name: bgerror;
+		-ms-animation-duration: .5s;
+		-ms-animation-timing-function: linear;
+		-ms-animation-iteration-count: 1;	
+		-ms-animation-direction: normal;
+		-ms-animation-fill-mode: forwards;
+
+		animation-name: bgerror;
+		animation-duration: .5s;
+		animation-timing-function: linear;
+		animation-iteration-count: 1;	
+		animation-direction: normal;
+		animation-fill-mode: forwards;
+	}
+
+	@-webkit-keyframes bgerror {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #E36262;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@-moz-keyframes bgerror {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #E36262;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@-ms-keyframes bgerror {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #E36262;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
+
+	@keyframes bgerror {
+
+		0% {
+			background-color: #ccc;
+		}
+		
+		50% {
+			background-color: #E36262;
+		}
+
+		100% {
+			background-color: #ccc;
+		}
+
+	}
 
 	textarea:focus {
 		outline: none;

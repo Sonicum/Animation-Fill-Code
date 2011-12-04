@@ -70,13 +70,17 @@ $(function () {
 				$('<a href="http://www.youtube.com/watch?v=araO0Vli-j4" class="play" id="btnDemo" title="Watch a Screencast Demo">Play</a>').insertAfter(s.hGroup);
 				$('.top-box').slideUp(0);
 
-				$(s.btn).bind('click', function () {
+				s.btn.bind('click', function () {
+					s.field.removeClass('bg');
+					s.field.removeClass('bgerror');
 					if (!$('input:radio[name=startWith]:checked').val()) {
 						AnimationFillCode.doErrorMsg(0);
+						s.field.addClass('bgerror');
 					} else {
 
 						if (!s.field.val() || s.field.val() === s.phMessage) {
 							AnimationFillCode.doErrorMsg(1);
+							s.field.addClass('bgerror');
 						} else {
 							s.currentValue = s.field.val();
 							AnimationFillCode.doCheckCode();
@@ -137,24 +141,27 @@ $(function () {
 					if (s.currentValue.search('keyframes') !== -1) {
 
 						if (s.currentValue.search('{') !== -1) {
-							AnimationFillCode.doFill($(s.field).val(), s.startWith, s.atValue1, s.atValue2/*, s.atValue3*/);
+							AnimationFillCode.doFill(s.field.val(), s.startWith, s.atValue1, s.atValue2/*, s.atValue3*/);
 						} else {
 							AnimationFillCode.doErrorMsg(2);
+							s.field.addClass('bgerror');
 						}
 
 					} else {
 						AnimationFillCode.doErrorMsg(2);
+						s.field.addClass('bgerror');
 					}
 
 				} else {
 					AnimationFillCode.doErrorMsg(3);
+					s.field.addClass('bgerror');
 				}
 			},
 
 			doFill: function (val, ven, ven1, ven2/*, ven3*/) {
 				s = this.settings;
 				var i, j, k;
-				$(s.helpContent).slideUp(s.speed);
+				s.helpContent.slideUp(s.speed);
 
 				s.myChunkCode = val.replace(/@-/g, "||||@-");
 				s.myChunkCode = s.myChunkCode.replace(/}\s*}/g, "||||}\n\n}");
@@ -226,7 +233,7 @@ $(function () {
 
 				s.complete = s.myChunkCode.join('');
 
-				$(s.field).val(s.complete);
+				s.field.val(s.complete);
 				s.complete = "";
 				this.doCongrats();
 			},
@@ -234,23 +241,26 @@ $(function () {
 			polyfillPlaceholder: function () {
 
 				s = this.settings;
-				$(s.field).addClass('ph');
+				s.field.addClass('ph');
 
-				$(s.field).val(s.phMessage);
+				s.field.val(s.phMessage);
 
-				s.fieldValue = $(s.field).val;
-				$(s.field).focus(function () {
-					if ($(s.field).val() === s.phMessage) {
-						$(s.field).val('');
-						$(s.field).removeClass('ph');
+				s.fieldValue = s.field.val;
+				s.field.focus(function () {
+					if (s.field.val() === s.phMessage) {
+						s.field.val('');
+						s.field.removeClass('bg');
+						s.field.removeClass('ph');
+					} else {
+						s.field.removeClass('bg');
 					}
 				});
 
-				$(s.field).blur(function () {
-					if ($(s.field).val() === '') {
-						$(s.congrats).slideUp(s.speed);
-						$(s.field).val(s.phMessage);
-						$(s.field).addClass('ph');
+				s.field.blur(function () {
+					if (s.field.val() === '') {
+						s.congrats.slideUp(s.speed);
+						s.field.val(s.phMessage);
+						s.field.addClass('ph');
 					}
 				});
 
@@ -260,9 +270,9 @@ $(function () {
 
 				s = this.settings;
 
-				$(s.field).blur(function () {
-					if ($(s.field).val() === '') {
-						$(s.congrats).slideUp(s.speed);
+				s.field.blur(function () {
+					if (s.field.val() === '') {
+						s.congrats.slideUp(s.speed);
 					}
 				});
 
@@ -271,22 +281,22 @@ $(function () {
 			doHelpButton: function () {
 
 				s = this.settings;
-				s.error = $('#congrats')[0];
-				s.closeHelp = $('#closeHelp')[0];
-				s.helpBtn = $('#btnHelp')[0];
+				s.error = $('#congrats');
+				s.closeHelp = $('#closeHelp');
+				s.helpBtn = $('#btnHelp');
 
-				$(s.helpBtn).bind('click', function () {
-					$(s.helpContent).slideToggle(s.speed);
-					$(s.demoContent).slideUp(s.speed);
-					$(s.congrats).slideUp(s.speed);
+				s.helpBtn.bind('click', function () {
+					s.helpContent.slideToggle(s.speed);
+					s.demoContent.slideUp(s.speed);
+					s.congrats.slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
 
-				$(s.closeHelp).bind('click', function () {
-					$(s.helpContent).slideUp(s.speed);
-					$(s.demoContent).slideUp(s.speed);
-					$(s.congrats).slideUp(s.speed);
+				s.closeHelp.bind('click', function () {
+					s.helpContent.slideUp(s.speed);
+					s.demoContent.slideUp(s.speed);
+					s.congrats.slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
@@ -295,22 +305,22 @@ $(function () {
 
 			doDemoButton: function () {
 				s = this.settings;
-				s.error = $('#congrats')[0];
-				s.closeDemo = $('#closeDemo')[0];
-				s.demoBtn = $('#btnDemo')[0];
+				s.error = $('#congrats');
+				s.closeDemo = $('#closeDemo');
+				s.demoBtn = $('#btnDemo');
 
-				$(s.demoBtn).bind('click', function () {
-					$(s.demoContent).slideToggle(s.speed);
-					$(s.helpContent).slideUp(s.speed);
-					$(s.congrats).slideUp(s.speed);
+				s.demoBtn.bind('click', function () {
+					s.demoContent.slideToggle(s.speed);
+					s.helpContent.slideUp(s.speed);
+					s.congrats.slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
 
-				$(s.closeDemo).bind('click', function () {
-					$(s.helpContent).slideUp(s.speed);
-					$(s.demoContent).slideUp(s.speed);
-					$(s.congrats).slideUp(s.speed);
+				s.closeDemo.bind('click', function () {
+					s.helpContent.slideUp(s.speed);
+					s.demoContent.slideUp(s.speed);
+					s.congrats.slideUp(s.speed);
 					AnimationFillCode.removeError();
 					return false;
 				});
@@ -322,30 +332,30 @@ $(function () {
 				s.error = $('#error');
 				s.congrats = $('#congrats');
 
-				$(s.helpContent).slideUp(s.speed);
-				$(s.congrats).slideUp(s.speed);
+				s.helpContent.slideUp(s.speed);
+				s.congrats.slideUp(s.speed);
 
 				switch (e) {
 				case 0:
-					$(s.error).html(s.errorMsg0);
+					s.error.html(s.errorMsg0);
 					break;
 
 				case 1:
-					$(s.error).html(s.errorMsg1);
+					s.error.html(s.errorMsg1);
 					break;
 
 				case 2:
-					$(s.error).html(s.errorMsg2);
+					s.error.html(s.errorMsg2);
 					break;
 
 				case 3:
-					$(s.error).html(s.errorMsg3);
+					s.error.html(s.errorMsg3);
 					break;
 				}
 
-				$(s.error).slideDown(s.speed);
+				s.error.slideDown(s.speed);
 
-				$(s.field).focus(function () {
+				s.field.focus(function () {
 					AnimationFillCode.removeError();
 				});
 
@@ -356,10 +366,11 @@ $(function () {
 				s = this.settings;
 				s.error = $('#error');
 				s.congrats = $('#congrats');
+				s.field.addClass('bg');
 
-				$(s.error).slideUp(s.speed);
-				$(s.congrats).html(s.congratsMsg);
-				$(s.congrats).slideDown(s.speed);
+				s.error.slideUp(s.speed);
+				s.congrats.html(s.congratsMsg);
+				s.congrats.slideDown(s.speed);
 			},
 
 			removeError: function () {
@@ -367,7 +378,7 @@ $(function () {
 				s = this.settings;
 				s.error = $('#error');
 
-				$(s.error).slideUp(s.speed);
+				s.error.slideUp(s.speed);
 
 			}
 
