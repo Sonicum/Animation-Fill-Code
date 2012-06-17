@@ -26,7 +26,7 @@ $(function () {
 				venStart: '',
 				ven1: '',
 				ven2: '',
-				//ven3: '',
+				ven3: '',
 				venStartRegEx: null,
 				ven1RegEx: null,
 				ven2RegEx: null,
@@ -37,7 +37,7 @@ $(function () {
 				myBrackets2: [],
 				venProps1: '',
 				venProps2: '',
-				//venProps3: '',
+				venProps3: '',
 				venPropsS: '',
 				myAnimChunk: '',
 
@@ -49,7 +49,7 @@ $(function () {
 				errorMsg0: '<p>Before submitting, select which browser you\'re starting with (i.e. webkit, moz, etc).</p>',
 				errorMsg1: '<p>Trigger happy much? Enter some code before submitting.</p>',
 				errorMsg2: '<p>Are you sure that\'s CSS3 animation code? That code is whack. Try again.</p>',
-				errorMsg3: '<p>It looks like this code already has all the necessary syntax. Make sure you paste animation code that uses only one vendor prefix, then select the correct option.</p>',
+				errorMsg3: '<p>It looks like this code already has all the necessary syntax, or else you\'ve selected the wrong radio button. Make sure you paste animation code that uses only one vendor prefix, then select the correct option.</p>',
 				congratsMsg: '<p>Your animation code has been filled! &nbsp; &nbsp; <a href="#" onclick="selectText(); return false;">Click to Select Text</a></p>',
 				speed: 1000,
 				foo: 'bar'
@@ -91,7 +91,7 @@ $(function () {
 				});
 
 				//if (!Modernizr.input.placeholder) {
-				this.polyfillPlaceholder();
+				//this.polyfillPlaceholder();
 				//} else {
 					//this.blurCleared();
 				//}
@@ -109,39 +109,39 @@ $(function () {
 				case "webkit":
 					s.atValue1 = 'moz';
 					s.atValue2 = 'ms';
-					//s.atValue3 = 'o';
+					s.atValue3 = 'o';
 					break;
 
 				case "moz":
 					s.atValue1 = 'webkit';
 					s.atValue2 = 'ms';
-					//s.atValue3 = 'o';
+					s.atValue3 = 'o';
 					break;
 
 				case "ms":
 					s.atValue1 = 'webkit';
 					s.atValue2 = 'moz';
-					//s.atValue3 = 'o';
+					s.atValue3 = 'o';
 					break;
 
-				/*case "o":
+				case "o":
 					s.atValue1 = 'webkit';
 					s.atValue2 = 'moz';
 					s.atValue3 = 'ms';
-					break;*/
+					break;
 				default:
 					s.atValue1 = 'moz';
 					s.atValue2 = 'ms';
-					//s.atValue3 = 'o';
+					s.atValue3 = 'o';
 					break;
 				}
 
-				if ((s.currentValue.search("@-" + s.atValue1 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue2 + "-keyframes") === -1) /*&& (s.currentValue.search("@-" + s.atValue3 + "-keyframes") === -1)*/) {
+				if ((s.currentValue.search("@-" + s.atValue1 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue2 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue3 + "-keyframes") === -1)) {
 
 					if (s.currentValue.search('keyframes') !== -1) {
 
 						if (s.currentValue.search('{') !== -1) {
-							AnimationFillCode.doFill(s.field.val(), s.startWith, s.atValue1, s.atValue2/*, s.atValue3*/);
+							AnimationFillCode.doFill(s.field.val(), s.startWith, s.atValue1, s.atValue2, s.atValue3);
 						} else {
 							AnimationFillCode.doErrorMsg(2);
 							s.field.addClass('bgerror');
@@ -158,7 +158,7 @@ $(function () {
 				}
 			},
 
-			doFill: function (val, ven, ven1, ven2/*, ven3*/) {
+			doFill: function (val, ven, ven1, ven2, ven3) {
 				s = this.settings;
 				var i, j, k;
 				s.helpContent.slideUp(s.speed);
@@ -170,11 +170,11 @@ $(function () {
 				s.venStart = "-" + ven + "-";
 				s.ven1 = "-" + ven1 + "-";
 				s.ven2 = "-" + ven2 + "-";
-				//s.ven3 = "-" + ven3 + "-";
+				s.ven3 = "-" + ven3 + "-";
 				s.venStartRegEx = new RegExp("@" + s.venStart + "keyframes", "g");
 				s.ven1RegEx = "@" + s.ven1 + "keyframes";
 				s.ven2RegEx = "@" + s.ven2 + "keyframes";
-				//s.ven3RegEx = "@" + s.ven3 + "keyframes";
+				s.ven3RegEx = "@" + s.ven3 + "keyframes";
 
 				// complete code, broken up here
 				for (i = 0; i < s.myChunkCode.length; i += 1) {
@@ -199,17 +199,17 @@ $(function () {
 									if (s.myBrackets2[k].indexOf(s.venStart + "animation") !== -1) {
 										s.venProps1 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven1 + "animation") + ";";
 										s.venProps2 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven2 + "animation") + ";";
-										//s.venProps3 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven3 + "animation") + ";";
+										s.venProps3 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven3 + "animation") + ";";
 										s.venPropsS += s.myBrackets2[k].replace(s.venStart + "animation", "animation") + ";";
 									}
 
 								}
 
-								s.myBrackets[j] = s.myBrackets[j] + s.venProps1.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" /*+ s.venProps3.replace("{", "") + "\n"*/ + s.venPropsS.replace("{", "") + "\n";
+								s.myBrackets[j] = s.myBrackets[j] + s.venProps1.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" + s.venProps3.replace("{", "") + "\n" + s.venPropsS.replace("{", "") + "\n";
 
 								s.venProps1 = "";
 								s.venProps2 = "";
-								//s.venProps3 = "";
+								s.venProps3 = "";
 								s.venPropsS = "";
 
 							}
@@ -223,7 +223,7 @@ $(function () {
 
 						s.myAnimChunk = s.myChunkCode[i].replace(s.venStartRegEx, s.ven1RegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven2RegEx);
-						//s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven3RegEx);
+						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven3RegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@keyframes");
 						s.myChunkCode[i] = s.myChunkCode[i] + "}\n\n}\n\n" + s.myAnimChunk;
 
@@ -232,6 +232,8 @@ $(function () {
 				}
 
 				s.complete = s.myChunkCode.join('');
+				
+				s.complete = s.complete.replace("// try this code!\n\n", "");
 
 				s.field.val(s.complete);
 				s.complete = "";
