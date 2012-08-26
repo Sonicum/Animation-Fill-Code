@@ -108,40 +108,31 @@ $(function () {
 				switch (s.startWith) {
 				case "webkit":
 					s.atValue1 = 'moz';
-					s.atValue2 = 'ms';
-					s.atValue3 = 'o';
+					s.atValue2 = 'o';
 					break;
 
 				case "moz":
 					s.atValue1 = 'webkit';
-					s.atValue2 = 'ms';
-					s.atValue3 = 'o';
-					break;
-
-				case "ms":
-					s.atValue1 = 'webkit';
-					s.atValue2 = 'moz';
-					s.atValue3 = 'o';
+					s.atValue2 = 'o';
 					break;
 
 				case "o":
 					s.atValue1 = 'webkit';
 					s.atValue2 = 'moz';
-					s.atValue3 = 'ms';
 					break;
+
 				default:
 					s.atValue1 = 'moz';
-					s.atValue2 = 'ms';
-					s.atValue3 = 'o';
+					s.atValue2 = 'o';
 					break;
 				}
 
-				if ((s.currentValue.search("@-" + s.atValue1 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue2 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue3 + "-keyframes") === -1)) {
+				if ((s.currentValue.search("@-" + s.atValue1 + "-keyframes") === -1) && (s.currentValue.search("@-" + s.atValue2 + "-keyframes") === -1)) {
 
 					if (s.currentValue.search('keyframes') !== -1) {
 
 						if (s.currentValue.search('{') !== -1) {
-							AnimationFillCode.doFill(s.field.val(), s.startWith, s.atValue1, s.atValue2, s.atValue3);
+							AnimationFillCode.doFill(s.field.val(), s.startWith, s.atValue1, s.atValue2);
 						} else {
 							AnimationFillCode.doErrorMsg(2);
 							s.field.addClass('bgerror');
@@ -158,7 +149,7 @@ $(function () {
 				}
 			},
 
-			doFill: function (val, ven, ven1, ven2, ven3) {
+			doFill: function (val, ven, ven1, ven2) {
 				s = this.settings;
 				var i, j, k;
 				s.helpContent.slideUp(s.speed);
@@ -170,11 +161,9 @@ $(function () {
 				s.venStart = "-" + ven + "-";
 				s.ven1 = "-" + ven1 + "-";
 				s.ven2 = "-" + ven2 + "-";
-				s.ven3 = "-" + ven3 + "-";
 				s.venStartRegEx = new RegExp("@" + s.venStart + "keyframes", "g");
 				s.ven1RegEx = "@" + s.ven1 + "keyframes";
 				s.ven2RegEx = "@" + s.ven2 + "keyframes";
-				s.ven3RegEx = "@" + s.ven3 + "keyframes";
 
 				// complete code, broken up here
 				for (i = 0; i < s.myChunkCode.length; i += 1) {
@@ -184,7 +173,7 @@ $(function () {
 
 						s.myBrackets = s.myChunkCode[i].replace(/{/g, "||||{");
 						s.myBrackets = s.myBrackets.replace(/}/g, "||||}");
-						s.myBrackets = s.myBrackets.split("||||");
+                        s.myBrackets = s.myBrackets.split("||||");
 
 						for (j = 0; j < s.myBrackets.length; j += 1) {
 
@@ -199,17 +188,15 @@ $(function () {
 									if (s.myBrackets2[k].indexOf(s.venStart + "animation") !== -1) {
 										s.venProps1 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven1 + "animation") + ";";
 										s.venProps2 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven2 + "animation") + ";";
-										s.venProps3 += s.myBrackets2[k].replace(s.venStart + "animation", s.ven3 + "animation") + ";";
 										s.venPropsS += s.myBrackets2[k].replace(s.venStart + "animation", "animation") + ";";
 									}
 
 								}
 
-								s.myBrackets[j] = s.myBrackets[j] + s.venProps1.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" + s.venProps3.replace("{", "") + "\n" + s.venPropsS.replace("{", "") + "\n";
+								s.myBrackets[j] = s.myBrackets[j] + s.venProps1.replace("{", "") + "\n" + s.venProps2.replace("{", "") + "\n" + s.venPropsS.replace("{", "") + "\n";
 
 								s.venProps1 = "";
 								s.venProps2 = "";
-								s.venProps3 = "";
 								s.venPropsS = "";
 
 							}
@@ -223,7 +210,6 @@ $(function () {
 
 						s.myAnimChunk = s.myChunkCode[i].replace(s.venStartRegEx, s.ven1RegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven2RegEx);
-						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, s.ven3RegEx);
 						s.myAnimChunk = s.myAnimChunk + "}\n\n}\n\n" + s.myChunkCode[i].replace(s.venStartRegEx, "@keyframes");
 						s.myChunkCode[i] = s.myChunkCode[i] + "}\n\n}\n\n" + s.myAnimChunk;
 
@@ -232,8 +218,8 @@ $(function () {
 				}
 
 				s.complete = s.myChunkCode.join('');
-				
-				s.complete = s.complete.replace("// try this code!\n\n", "");
+
+				s.complete = s.complete.replace("/* try this code! */\n\n", "");
 
 				s.field.val(s.complete);
 				s.complete = "";
